@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+
+ </head>
+<body>
+
+<script>
+    var app = angular.module("app", []);
+    app.controller("CacheController", ['$scope', '$cacheFactory', function ($scope, $cacheFactory) {
+        $scope.cacheKeys = [];
+        $scope.cacheData = '';
+        $scope.cacheObject = $cacheFactory("Student");
+
+        $scope.add = function (key, value) {            
+            $scope.cacheObject.put(key, value);
+            $scope.cacheKeys.push(key);
+       };
+
+       
+        $scope.remove = function (key) {
+            $scope.cacheObject.remove(key);
+        };
+
+        $scope.removeAll = function (key) {
+            $scope.cacheObject.removeAll();
+        };
+
+        $scope.Destroy = function (key) {
+            $scope.cacheObject.destroy();
+        };
+    }]);
+</script>
+
+<div ng-app="app" ng-controller="CacheController">
+
+ Enter Cache Key: <input type="text" ng-model="cacheKey"/>
+  
+    Enter Cache value: <input type="text" ng-model="cacheValue" />
+    
+    <div><br />
+        <button ng-click="add(cacheKey, cacheValue)">Add</button><br><br>
+        <button ng-click="remove(cacheKey)">Remove</button><br><br>
+        <button ng-click="removeAll()">Remove All</button><br><br>
+        <button ng-click="Destroy()">Destroy</button>
+    </div>
+    <hr />
+    
+    <b>Cache info</b>
+    
+         <div ng-repeat="(key, value) in cacheObject.info()">
+            <span ng-bind="key"> </span> <span ng-bind="value"></span>
+</div>
+       
+    
+
+</div>
+</body>
+</html>
